@@ -16,6 +16,14 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
+      originId : {
+        type : Sequelize.INTEGER,
+        references : {
+          model : {
+            tableName : 'Origins'
+          }
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
