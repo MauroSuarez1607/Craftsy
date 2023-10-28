@@ -51,23 +51,22 @@
             </button>
         </div>
     </div>
-    <div class="home__box">
+    <div class="row">
 
-        <main class="home__main">
-            <% products.forEach(product => { %>
-                <% if (product.discount > 0) { %>
-                    <article class="home__main__article">
-                        <img src="/images/<%= product.image ? product.image : 'img-phone-01.jpg'  %>" alt="Imagen phone 1">
-                        <div class="home__main__article--description">
-                            <h4><%= product.name %></h4>
-                            <p><%= product.description %></p>
-                            <a href="/products/detail/<%= product.id %>">ver más</a>
-                        </div>
-                        <h3 class="home__main__article--discount"><%= product.discount %>%</h3>
-                    </article>
-                <% } %>
-               
+        <main class="col-12 col-md-8">
+            <% sections.forEach(section => { %>
+             <h3 class="mt-5"><%= section.name.toUpperCase() %></h3>
+             <hr>
+             <section class="row">
+                <% section.products.forEach(product => { %>
+                        <%- include('./partials/cardProduct', {
+                            product
+                        }) %>
+                
+                <% }) %>
+            </section>
             <% }) %>
+            
         </main>
 
         <aside class="home__aside">
@@ -98,14 +97,7 @@
     <div class="home__carousel">
         <div class="glider-contain" >
             <div class="glider">
-                <% products.forEach(product => { %>
-                    <article class="home__carousel__article">
-                        <img src="/images/<%= product.image %>" alt="Imagen phone 1">
-                        <div class="home__carousel__article--description">
-                            <h4><%= product.name %></h4>
-                        </div>
-                    </article>
-                <% }) %>
+                
 
                    
               
