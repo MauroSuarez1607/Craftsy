@@ -23,6 +23,31 @@ module.exports = (req,res) => {
                 remember !== undefined && res.cookie('craftsyForEver20',req.session.userLogin, {
                     maxAge : 1000 * 60
                 })
+
+                /* carrito */
+
+                db.Order.findOne({
+                    where : {
+                        userId : user.id,
+                        statusId : 1
+                    },
+                    include : [
+                        {
+                            association : 'products',
+                            include : ['brand', 'section', 'images']
+                        }
+                    ]
+                }).then(order => {
+                    if(order){
+                        console.log(order);
+                    }else {
+                        db.Order.create({
+                            total : 0,
+                            userId : user.id,
+                            statusId : 1
+                        })
+                    }
+                })
         
                 return res.redirect('/')
             })
