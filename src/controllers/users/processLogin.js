@@ -33,23 +33,46 @@ module.exports = (req,res) => {
                     },
                     include : [
                         {
-                            association : 'products',
-                            include : ['brand', 'section', 'images']
+                            association : 'items',
+                            include : {
+                                association : 'product'                            }
                         }
                     ]
                 }).then(order => {
                     if(order){
-                        console.log(order);
+                        req.session.cart = {
+                            orderId : order.id,
+                            products : order.items.map(({quantity, product: {id, name, image, price, discount}}) => {
+                                return {
+                                    id,
+                                    name,
+                                    image,
+                                    price,
+                                    discount,
+                                    quantity
+                                }
+                            }),
+                            total : order.items.map(item => item.product.price * item.quantity).reduce((a,b) => a+b, 0)
+                        }
+                        return res.redirect('/')
+                    
                     }else {
                         db.Order.create({
                             total : 0,
                             userId : user.id,
                             statusId : 1
+                        }).then(order => {
+                            req.session.cart = {
+                                orderId : order.id,
+                                total : 0,
+                                products : []
+                            }
+                            return res.redirect('/')
+
                         })
                     }
                 })
         
-                return res.redirect('/')
             })
             .catch(error => console.log(error))        
     }else {

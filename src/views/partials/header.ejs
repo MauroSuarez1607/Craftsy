@@ -17,7 +17,7 @@
                 <% if (userLogin.rol === 1) { %>
                     <li><a href="/admin">admin</a></li>
                 <% } %>
-                <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button id="btn-cart" type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <i class="fa-solid fa-cart-shopping fa-x1"></i>
                   </button>
                 <li><a href="/users/profile">Hola <%= userLogin.name %>!</a></li>
